@@ -4,19 +4,22 @@
   "description": "Library Management and Student Book Swapping System",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node --test tests/circulation.test.js",
+    "docker:setup": "node scripts/docker-setup.js",
+    "seed:demo": "node scripts/seed-demo.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sujalb18/LibSwap.git"
+    "url": "git+https://github.com/ujjain127/LibSwap-226411987.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sujalb18/LibSwap/issues"
+    "url": "https://github.com/ujjain127/LibSwap-226411987/issues"
   },
-  "homepage": "https://github.com/sujalb18/LibSwap#readme",
+  "homepage": "https://github.com/ujjain127/LibSwap-226411987#readme",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",

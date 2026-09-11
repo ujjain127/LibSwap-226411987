@@ -27,7 +27,12 @@ const bookSchema = new mongoose.Schema(
         available: {
             type: Boolean,
             default: true
-        }
+        },
+
+        // Keep the loan and queue in one document so changes are atomic.
+        borrower: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null, select: false },
+        borrowedAt: { type: Date, default: null, select: false },
+        reservations: { type: [mongoose.Schema.Types.ObjectId], ref: 'User', default: [], select: false }
     },
     {
         // MongoDB will automatically save createdAt and updatedAt

@@ -1,6 +1,4 @@
-# LibSwap Docker Submission
-
-For the standalone setup guide, see [docker-instructions.md](docker-instructions.md).
+# Docker Instructions — LibSwap
 
 **Name:** Ujjain Sri Ganesh
 **Student ID:** 226411987
@@ -9,7 +7,8 @@ LibSwap is a library catalogue with login, borrowing, reservations, returns, Exp
 
 ## Requirements
 
-* Docker Desktop
+* Git (to clone the repository)
+* Docker Desktop, installed and running
 * Docker Compose
 * Port `3000` available
 
@@ -125,44 +124,3 @@ checks that both survived container recreation, verifies queue priority, and ret
 ```bash
 docker compose --env-file .env.docker down
 ```
-
-## Architecture and configuration
-
-The app image uses Node 22, installs locked production dependencies with `npm ci`,
-and runs as the non-root `node` user. Express serves all HTML/CSS/JavaScript and
-APIs on the same port. Browser API requests use relative URLs.
-Compose connects Express to MongoDB 8 at `mongo:27017`, waits for database health,
-and stores data in a named volume. MongoDB has no published host port.
-This setup is intended for local assessment; only the app is exposed, on host loopback.
-
-The setup command generates private random JWT and demo-account secrets in
-`.env.docker`. No Atlas credentials or code edits are needed. `APP_PORT` defaults
-to 3000; change it in `.env.docker` if occupied and use that port in browser URLs.
-Compose sets the internal app port and MongoDB URI explicitly. `.env.example`
-is only for optional native execution, not a required Docker setup step.
-
-To force a fresh image build:
-
-```bash
-docker compose --env-file .env.docker build --pull --no-cache
-docker compose --env-file .env.docker up -d --wait
-docker compose --env-file .env.docker ps
-docker compose --env-file .env.docker logs --tail=50 app
-```
-
-To intentionally delete all local application data and start again:
-
-```bash
-docker compose --env-file .env.docker down -v
-docker compose --env-file .env.docker up -d --wait
-docker compose --env-file .env.docker exec -T app npm run seed:demo
-```
-
-Signup is available through `POST /api/auth/register` with `username`, `fullName`,
-`email` and `password` JSON fields; the existing pages provide login. The automated
-test above creates three accounts through registration and logs each one in.
-For a browser check, sign in on Borrow Books as the reader, borrow The Hobbit,
-then use a separate browser session as the reserver to reserve it. Return it as
-the reader on My Returns, then borrow and return it as the reserver.
-
-Submit **https://github.com/ujjain127/LibSwap-226411987**, the individual repository.

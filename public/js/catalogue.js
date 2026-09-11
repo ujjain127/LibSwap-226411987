@@ -66,12 +66,19 @@ const displayBooks = (books) => {
         card.classList.add('book-card');
 
         // Showing the book information
-        card.innerHTML = `
-            <h2>${book.title}</h2>
-            <p><strong>Author:</strong> ${book.author}</p>
-            <p><strong>Genre:</strong> ${book.genre || 'Not specified'}</p>
-            <p><strong>Availability:</strong> ${book.available ? 'Available' : 'Unavailable'}</p>
-        `;
+        const heading = document.createElement('h2');
+        heading.textContent = book.title;
+        card.appendChild(heading);
+        for (const [label, value] of [
+            ['Author', book.author], ['Genre', book.genre || 'Not specified'],
+            ['Availability', book.available ? 'Available' : 'Unavailable']
+        ]) {
+            const detail = document.createElement('p');
+            const title = document.createElement('strong');
+            title.textContent = `${label}: `;
+            detail.append(title, document.createTextNode(value));
+            card.appendChild(detail);
+        }
 
         // Add the card to the page
         bookList.appendChild(card);

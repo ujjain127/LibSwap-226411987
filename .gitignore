@@ -141,3 +141,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Retain the reviewed, non-secret Docker verification output.
+!evidence/fresh-environment.log

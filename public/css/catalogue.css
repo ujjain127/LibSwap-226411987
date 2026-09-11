@@ -1,4 +1,8 @@
 /* Basic page styling */
+nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+nav a { color: white; }
+nav a[aria-current="page"] { font-weight: bold; }
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;

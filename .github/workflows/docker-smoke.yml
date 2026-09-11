@@ -1,0 +1,43 @@
+name: Docker clean environment test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      COMPOSE_PROJECT_NAME: libswap-ci
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate local configuration using Docker only
+        run: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/workspace" -w /workspace node:22-bookworm-slim node scripts/docker-setup.js
+      - name: Build without application cache
+        run: docker compose --env-file .env.docker build --pull --no-cache
+      - name: Start healthy services and create demo records
+        run: |
+          docker compose --env-file .env.docker up -d --wait
+          docker compose --env-file .env.docker exec -T app npm run seed:demo
+      - name: Test registration login circulation and identity
+        run: |
+          docker compose --env-file .env.docker exec -T -e TEST_MONGODB_URI=mongodb://mongo:27017 app npm test
+          docker compose --env-file .env.docker exec -T app node scripts/docker-e2e.js before
+      - name: Recreate containers and verify persistence
+        run: |
+          docker compose --env-file .env.docker down
+          docker compose --env-file .env.docker up -d --wait
+          docker compose --env-file .env.docker exec -T app node scripts/docker-e2e.js after
+      - name: Report status without secrets
+        if: always()
+        run: |
+          docker compose --env-file .env.docker ps -a
+          docker compose --env-file .env.docker logs --tail=50 app
+      - name: Stop test containers
+        if: always()
+        run: docker compose --env-file .env.docker down

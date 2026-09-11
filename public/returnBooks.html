@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return Books | LibSwap</title>
+    <link rel="stylesheet" href="css/catalogue.css">
+    <link rel="stylesheet" href="css/circulation.css">
+    <script src="js/circulation.js" defer></script>
+</head>
+<body data-page="return">
+    <header>
+        <h1>LibSwap Return Books</h1>
+        <p>View and return the books you are currently borrowing.</p>
+        <nav aria-label="Library navigation"><a href="catalogue.html">Catalogue</a><a href="borrowBooks.html">Borrow / Reserve</a><a href="returnBooks.html" aria-current="page">My Returns</a></nav>
+    </header>
+    <main>
+        <section id="loginSection" class="search-section">
+            <h2>Sign in</h2>
+            <p>Use your existing LibSwap account.</p>
+            <form id="loginForm" class="login-fields">
+                <label>Email<input id="email" type="email" autocomplete="username" required></label>
+                <label>Password<input id="password" type="password" autocomplete="current-password" required></label>
+                <button type="submit">Sign in</button>
+            </form>
+        </section>
+        <div id="session" hidden>Signed in to LibSwap. <button id="logoutButton" type="button">Sign out</button></div>
+        <section id="controls" class="search-section" hidden>
+            <label for="searchInput">Search my borrowed books</label>
+            <div class="search-box">
+                <input id="searchInput" type="search" placeholder="Title, author or genre">
+                <button id="refreshButton" type="button">Refresh</button>
+            </div>
+        </section>
+        <p id="message" role="status" aria-live="polite"></p>
+        <section id="bookList" class="book-list" aria-label="My borrowed books"></section>
+
+    </main>
+    <footer style="text-align: center; padding: 20px;">Individual Docker submission · Student ID: <a href="/api/student">226411987</a></footer>
+</body>
+</html>
